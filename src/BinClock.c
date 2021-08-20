@@ -5,8 +5,8 @@
  * Further Modified By: Mark Njoroge 
  *
  * 
- * <STUDNUM_1> <STUDNUM_2>
- * Date
+ * <LRDJUL001> <OLVSEB001>
+ * 19/08/2021
 */
 
 #include <signal.h> //for catching signals
@@ -53,12 +53,12 @@ void initGPIO(void){
 	wiringPiSetup(); //This is the default mode. If you want to change pinouts, be aware
 	
 
-	RTC = wiringPiI2CSetup(RTCAddr); //Set up the RTC
-	
+	RTC = wiringPiI2CSetup(RTCAddr); //Set up the RTC	
+
 	//Set up the LED
 	//Write your Logic here
+	pinMode (0, OUTPUT) ;
 	
-	pinMode (0, OUTPUT) ;	
 	printf("LED and RTC done\n");
 	
 	//Set up the Buttons
@@ -92,15 +92,15 @@ int main(void){
 	wiringPiI2CWriteReg8(RTC, MIN_REGISTER, 0x4);
 	wiringPiI2CWriteReg8(RTC, SEC_REGISTER, 0x00);
 	
+	
 	int toggle = 0;
-	int hours;
-	int minutes;
 	// Repeat this until we shut down
 	for (;;){
 		//Fetch the time from the RTC
 		//Write your logic here
-		minutes = wiringPiI2CRead(1);
-		printf("%d\n", minutes);		
+		hours = hexCompensation(wiringPiI2CReadReg8(RTC, HOUR_REGISTER));
+		mins = hexCompensation(wiringPiI2CReadReg8(RTC, MIN_REGISTER));
+		secs = hexCompensation(wiringPiI2CReadReg8(RTC, SEC_REGISTER));
 
 		//Toggle Seconds LED
 		//Write your logic here
